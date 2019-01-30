@@ -7,6 +7,9 @@
 # [*version*]
 #  Version of teleport to download
 #
+# [*archive_url*]
+#  URL for the teleport release archive
+#
 # [*archive_path*]
 #  Where to download the teleport tarball
 #
@@ -20,7 +23,7 @@
 #  Where to sylink the teleport web assets
 #
 # [*nodename*]
-#  Teleport nodename. 
+#  Teleport nodename.
 #  Defaults to $::fqdn fact
 #
 # [*data_dir*]
@@ -134,6 +137,7 @@
 #
 class teleport (
   $version               = $teleport::params::version,
+  $archive_url           = $teleport::params::archive_url,
   $archive_path          = $teleport::params::archive_path,
   $extract_path          = $teleport::params::extract_path,
   $bin_dir               = $teleport::params::bin_dir,
@@ -190,5 +194,3 @@ class teleport (
   anchor { 'teleport_final': }
 
 }
-
-
