@@ -12,7 +12,7 @@ class teleport::install {
     ensure       => present,
     extract      => true,
     extract_path => $teleport::extract_path,
-    source       => "https://github.com/gravitational/teleport/releases/download/${teleport::version}/teleport-${teleport::version}-linux-amd64-bin.tar.gz",
+    source       => $teleport::archive_url,
     creates      => "${teleport::extract_path}/teleport"
   } ->
   file {

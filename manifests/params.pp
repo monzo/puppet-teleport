@@ -5,6 +5,7 @@
 class teleport::params {
 
   $version         = 'v1.0.0'
+  $archive_url     = 'https://github.com/gravitational/teleport/releases/download/v1.0.0/teleport-v1.0.0-linux-amd64-bin.tar.gz'
   $archive_path    = '/tmp/teleport.tar.gz'
   $extract_path    = "/opt/teleport-${version}"
   $bin_dir         = '/usr/local/bin'
@@ -33,6 +34,9 @@ class teleport::params {
       } else {
         $init_style = 'systemd'
       }
+    }
+    'CoreOS': {
+      $init_style = 'systemd'
     }
     default: { fail('Unsupported OS') }
   }

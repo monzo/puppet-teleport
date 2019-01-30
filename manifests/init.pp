@@ -7,6 +7,9 @@
 # [*version*]
 #  Version of teleport to download
 #
+# [*archive_url*]
+#  URL for the teleport release archive
+#
 # [*archive_path*]
 #  Where to download the teleport tarball
 #
@@ -20,7 +23,7 @@
 #  Where to sylink the teleport web assets
 #
 # [*nodename*]
-#  Teleport nodename. 
+#  Teleport nodename.
 #  Defaults to $::fqdn fact
 #
 # [*data_dir*]
@@ -126,6 +129,9 @@
 # [*manage_service*]
 #  Whether puppet should manage and configure the service
 #
+# [*systemd_file*]
+#  Where puppet should store the systemd service configuration
+#
 # [*service_ensure*]
 #  State of the teleport service
 #
@@ -134,6 +140,7 @@
 #
 class teleport (
   $version               = $teleport::params::version,
+  $archive_url           = $teleport::params::archive_url,
   $archive_path          = $teleport::params::archive_path,
   $extract_path          = $teleport::params::extract_path,
   $bin_dir               = $teleport::params::bin_dir,
@@ -167,6 +174,7 @@ class teleport (
   $proxy_ssl_cert        = undef,
   $init_style            = $teleport::params::init_style,
   $manage_service        = true,
+  $systemd_file          = '/lib/systemd/system/teleport.service',
   $service_ensure        = 'running',
   $service_enable        = true
 ) inherits teleport::params {
@@ -190,5 +198,3 @@ class teleport (
   anchor { 'teleport_final': }
 
 }
-
-

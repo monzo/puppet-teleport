@@ -7,34 +7,33 @@
 # [*config_path*]
 #   Path to teleport config file
 #
+# [*systemd_file*]
+#   Path to the teleport systemd file
+#
 class teleport::config {
-
-  if $teleport::init_style {
-
-    case $teleport::init_style {
-      'systemd': {
-        file { '/lib/systemd/system/teleport.service':
-          mode    => '0644',
-          owner   => 'root',
-          group   => 'root',
-          content => template('teleport/teleport.systemd.erb'),
-        }~>
-        exec { 'teleport-systemd-reload':
-          command     => 'systemctl daemon-reload',
-          path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-          refreshonly => true,
-        }
+  case $teleport::init_style {
+    'systemd': {
+      file { $teleport::systemd_file:
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        content => template('teleport/teleport.systemd.erb'),
+      }~>
+      exec { 'teleport-systemd-reload':
+        command     => 'systemctl daemon-reload',
+        path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+        refreshonly => true,
       }
-      'init': {
-        file { '/etc/init.d/teleport':
-          mode    => '0555',
-          owner   => 'root',
-          group   => 'root',
-          content => template('teleport/teleport.init.erb')
-        }
-      }
-      default: { fail('OS not supported') }
     }
+    'init': {
+      file { '/etc/init.d/teleport':
+        mode    => '0555',
+        owner   => 'root',
+        group   => 'root',
+        content => template('teleport/teleport.init.erb')
+      }
+    }
+    default: { fail('OS not supported') }
   }
 
   file { $teleport::config_path:
@@ -45,5 +44,4 @@ class teleport::config {
     notify  => Service['teleport'],
     content => template('teleport/teleport.yaml.erb')
   }
-
 }

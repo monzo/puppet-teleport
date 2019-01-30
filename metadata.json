@@ -42,6 +42,10 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">=3.2.0 <5.0.0"
+    },
+    {
+      "name": "puppet/archive",
+      "version_requirement": ">=1.1.0"
     }
   ]
 }
