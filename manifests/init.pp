@@ -175,8 +175,8 @@ class teleport (
   $init_style            = $teleport::params::init_style,
   $manage_service        = true,
   $systemd_file          = '/lib/systemd/system/teleport.service',
-  $service_ensure        = 'running',
-  $service_enable        = true
+  $service_enable        = true,
+  $ensure                = present
 ) inherits teleport::params {
 
   validate_array($auth_servers)
@@ -186,15 +186,20 @@ class teleport (
   validate_bool($proxy_enable)
   validate_bool($proxy_ssl)
   validate_bool($manage_service)
-  validate_re($service_ensure, '^(running|stopped)$')
   validate_bool($service_enable)
   validate_array($auth_service_tokens)
 
-  anchor { 'teleport_first': }
-  ->
-  class { 'teleport::install': } ->
-  class { 'teleport::config': } ->
-  class { 'teleport::service': } ->
+  anchor { 'teleport_first': } ->
+  class { 'teleport::install':
+    ensure => $ensure,
+  } ->
+  class { 'teleport::config':
+    ensure => $ensure,
+  } ->
+  class { 'teleport::service':
+    ensure => $ensure,
+    manage_service => $manage_service,
+    init_style => $teleport::params::init_style,
+  } ->
   anchor { 'teleport_final': }
-
 }

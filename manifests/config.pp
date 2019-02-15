@@ -1,47 +1,16 @@
 # === Class teleport::config
 #
 # This class is called from teleport::init to install the config file
+# and the service definition.
 #
-# == Parameters
-#
-# [*config_path*]
-#   Path to teleport config file
-#
-# [*systemd_file*]
-#   Path to the teleport systemd file
-#
-class teleport::config {
-  case $teleport::init_style {
-    'systemd': {
-      file { $teleport::systemd_file:
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-        content => template('teleport/teleport.systemd.erb'),
-      }~>
-      exec { 'teleport-systemd-reload':
-        command     => 'systemctl daemon-reload',
-        path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
-        refreshonly => true,
-      }
-    }
-    'init': {
-      file { '/etc/init.d/teleport':
-        mode    => '0555',
-        owner   => 'root',
-        group   => 'root',
-        content => template('teleport/teleport.init.erb')
-      }
-    }
-    default: { fail('OS not supported') }
-  }
-
+class teleport::config(
+  Enum[present, absent] $ensure = present,
+) {
   file { $teleport::config_path:
-    ensure  => present,
+    ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0555',
-    notify  => Service['teleport'],
     content => template('teleport/teleport.yaml.erb')
   }
 }
