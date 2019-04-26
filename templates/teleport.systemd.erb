@@ -4,10 +4,12 @@ Wants=basic.target
 After=basic.target network.target
 
 [Service]
-ExecStart=<%= scope.lookupvar('teleport::bin_dir') %>/teleport start --config=<%= scope.lookupvar('teleport::config_path') %>
+ExecStart=<%= scope.lookupvar('teleport::bin_dir') %>/teleport start --config=<%= scope.lookupvar('teleport::config_path') %> --diag-addr=0.0.0.0:3027 --pid-file=/var/run/teleport.pid
 KillMode=process
 Restart=on-failure
 RestartSec=42s
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=/var/run/teleport.pid
 
 [Install]
 WantedBy=multi-user.target
