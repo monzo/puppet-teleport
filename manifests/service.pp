@@ -3,13 +3,45 @@
 # This class is meant to be called from teleport::init
 # It ensure the service is running
 #
-class teleport::service {
-
-  if $teleport::manage_service == true and $teleport::init_style {
+class teleport::service(
+  Boolean $manage_service = true,
+  Enum[present, absent] $ensure = present,
+  String $init_style = 'systemd',
+) {
+  if $manage_service == true {
+    case $init_style {
+      'systemd': {
+        file { $teleport::systemd_file:
+          ensure  => $ensure,
+          mode    => '0644',
+          owner   => 'root',
+          group   => 'root',
+          content => template('teleport/teleport.systemd.erb'),
+        }~>
+        exec { 'teleport-systemd-reload':
+          command     => 'systemctl daemon-reload',
+          path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+          refreshonly => true,
+        }
+      }
+      'init': {
+        file { '/etc/init.d/teleport':
+          ensure  => $ensure,
+          mode    => '0555',
+          owner   => 'root',
+          group   => 'root',
+          content => template('teleport/teleport.init.erb')
+        }
+      }
+      default: { fail('OS not supported') }
+    }~>
     service { 'teleport':
-      ensure   => $teleport::service_ensure,
+      ensure   => $ensure ? {
+        present => running,
+        absent => stopped,
+      },
       enable   => $teleport::service_enable,
-      provider => $teleport::init_style,
+      provider => $init_style,
     }
   }
 }

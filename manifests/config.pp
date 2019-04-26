@@ -44,6 +44,12 @@ class teleport::config {
     mode    => '0555',
     notify  => Service['teleport'],
     content => template('teleport/teleport.yaml.erb')
+  }~>
+  # reload if service exists and its running
+  exec { 'teleport-reload':
+    command     => 'systemctl reload teleport || true',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    refreshonly => true,
   }
 
 }
