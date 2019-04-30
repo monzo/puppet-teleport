@@ -26,6 +26,12 @@
 #  Teleport nodename.
 #  Defaults to $::fqdn fact
 #
+# [*checksum_type*]
+#  The checksum type to use when determining whether to replace a file’s contents.
+#
+# [*checksum*]
+#  The checksum of the source contents.
+#
 # [*data_dir*]
 #  Teleport data directory
 #  Defaults to undef (meaning teleport uses its
@@ -146,6 +152,8 @@ class teleport (
   $bin_dir               = $teleport::params::bin_dir,
   $assets_dir            = $teleport::params::assets_dir,
   $nodename              = $teleport::params::nodename,
+  $checksum_type         = $teleport::params::checksum_type,
+  $checksum              = $teleport::params::checksum,
   $data_dir              = undef,
   $auth_token            = undef,
   $advertise_ip          = undef,

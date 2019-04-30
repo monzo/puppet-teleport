@@ -29,11 +29,13 @@ class teleport::install(
     ensure => $directory_ensure,
   } ->
   archive { $teleport::archive_path:
-    ensure       => $ensure,
-    extract      => true,
-    extract_path => $teleport::extract_path,
-    source       => $teleport::archive_url,
-    creates      => "${teleport::extract_path}/teleport"
+    ensure        => $ensure,
+    extract       => true,
+    extract_path  => $teleport::extract_path,
+    source        => $teleport::archive_url,
+    creates       => "${teleport::extract_path}/teleport"
+    checksum      => $teleport::checksum,
+    checksum_type => $teleport::checksum_type,
   } ->
   file {
     "${teleport::bin_dir}/tctl":
