@@ -33,7 +33,7 @@ class teleport::install(
     extract       => true,
     extract_path  => $teleport::extract_path,
     source        => $teleport::archive_url,
-    creates       => "${teleport::extract_path}/teleport"
+    creates       => "${teleport::extract_path}/teleport",
     checksum      => $teleport::checksum,
     checksum_type => $teleport::checksum_type,
   } ->
