@@ -10,6 +10,9 @@
 # [*archive_url*]
 #  URL for the teleport release archive
 #
+# [*archive_sha256*]
+#  The SHA256 checksum of the source contents
+#
 # [*archive_path*]
 #  Where to download the teleport tarball
 #
@@ -25,12 +28,6 @@
 # [*nodename*]
 #  Teleport nodename.
 #  Defaults to $::fqdn fact
-#
-# [*checksum_type*]
-#  The checksum type to use when determining whether to replace a file’s contents.
-#
-# [*checksum*]
-#  The checksum of the source contents.
 #
 # [*data_dir*]
 #  Teleport data directory
@@ -147,13 +144,12 @@
 class teleport (
   $version               = $teleport::params::version,
   $archive_url           = $teleport::params::archive_url,
+  $archive_sha256        = $teleport::params::archive_sha256,
   $archive_path          = $teleport::params::archive_path,
   $extract_path          = $teleport::params::extract_path,
   $bin_dir               = $teleport::params::bin_dir,
   $assets_dir            = $teleport::params::assets_dir,
   $nodename              = $teleport::params::nodename,
-  $checksum_type         = $teleport::params::checksum_type,
-  $checksum              = $teleport::params::checksum,
   $data_dir              = undef,
   $auth_token            = undef,
   $advertise_ip          = undef,
