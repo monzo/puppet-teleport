@@ -42,6 +42,7 @@ class teleport::service(
       },
       enable   => $teleport::service_enable,
       provider => $init_style,
+      subscribe => [Exec['extract-teleport-current'], File["${teleport::bin_dir}/teleport"]],
     }
   }
 }

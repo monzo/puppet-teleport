@@ -5,13 +5,13 @@ class teleport::install(
   Enum[present, absent] $ensure = present,
 ) {
 
-  include ::archive
-
   $rootgroup = $facts['os']['family'] ? {
     'Solaris'          => 'wheel',
     /(Darwin|FreeBSD)/ => 'wheel',
     default            => 'root',
   }
+
+  $teleport_current_path = '/opt/teleport-current.tar.gz'
 
   $directory_ensure = $ensure ? {
     present => directory,
@@ -28,14 +28,16 @@ class teleport::install(
   file { $teleport::extract_path:
     ensure => $directory_ensure,
   } ->
-  archive { $teleport::archive_path:
-    ensure        => $ensure,
-    extract       => true,
-    extract_path  => $teleport::extract_path,
-    source        => $teleport::archive_url,
-    creates       => "${teleport::extract_path}/teleport",
-    checksum      => $teleport::checksum,
-    checksum_type => $teleport::checksum_type,
+  exec { 'download-teleport-latest':
+    command => "/usr/bin/aws s3 --region=${::region} cp ${teleport::archive_url} ${teleport_current_path}",
+    unless => "/usr/bin/sha256sum ${teleport_current_path} | /bin/grep -q ${teleport::archive_sha256}"
+  } ~>
+  exec { 'extract-teleport-current':
+    refreshonly => true,
+    command => "/bin/tar xf ${teleport_current_path} -C ${teleport::extract_path} &&
+    chown root:root ${teleport::extract_path}/teleport/tctl &&
+    chown root:root ${teleport::extract_path}/teleport/teleport &&
+    chown root:root ${teleport::extract_path}/teleport/tsh"
   } ->
   file {
     "${teleport::bin_dir}/tctl":
