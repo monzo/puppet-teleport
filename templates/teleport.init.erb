@@ -48,7 +48,7 @@ start() {
         mkrundir
         [ -f $PID_FILE ] && rm $PID_FILE
         daemon --pidfile="$PID_FILE" \
-            "$TELEPORT" start --config="$CONFIG"  >> "$LOG_FILE" &
+            "$TELEPORT" start --config="$CONFIG" <%= scope.lookupvar('teleport::diag_enable') ? "--diag-addr=${scope.lookupvar('teleport::diag_listen_addr')}:${scope.lookupvar('teleport::diag_listen_port')}" : '' %>  >> "$LOG_FILE" &
         retcode=$?
         sleep 1 # Give teleport a change to start before writing PID
         PID=$(pgrep teleport)

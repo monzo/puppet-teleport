@@ -23,6 +23,9 @@ class teleport::params {
   $ssh_permit_user_env      = false
   $proxy_tunnel_listen_addr = '127.0.0.1'
   $proxy_tunnel_listen_port = '3024'
+  $diag_enable              = false
+  $diag_listen_addr         = '0.0.0.0'
+  $diag_listen_port         = '3027'
 
   case $::operatingsystem {
     'RedHat', 'CentOS': {

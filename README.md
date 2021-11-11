@@ -303,6 +303,17 @@ State of the teleport service (Running/Stopped)
 
 Whether the service should be enabled on startup
 
+#### `diag_enable` [Bool]
+
+Whether the built-in metrics diag server (https://goteleport.com/docs/setup/reference/metrics/) should be enabled in newer versions of Teleport. Default: `false`
+
+#### `diag_listen_addr` [String]
+
+The address the diag server should listen on. Default: `0.0.0.0`
+
+#### `diag_listen_port` [String]
+
+The address the diag port should listen on. Default: `3027`
 
 ## Limitations
 
