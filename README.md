@@ -223,6 +223,14 @@ Which init system to use to start the service.
 
 Whether puppet should manage and configure the service
 
+#### `metrics_listen_addr` [String]
+
+The address on which Teleport should export metrics
+
+#### `metrics_listen_port` [String]
+
+The port of the listen address on which Teleport should export metrics
+
 #### `service_ensure` [String]
 
 State of the teleport service (Running/Stopped)

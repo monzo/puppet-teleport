@@ -129,6 +129,13 @@
 # [*manage_service*]
 #  Whether puppet should manage and configure the service
 #
+# [*metrics_listen_addr*]
+#  The address on which Teleport should export metrics
+#
+# [*metrics_listen_port*]
+#  The port of the listen address on which Teleport 
+#  should export metrics
+#
 # [*systemd_file*]
 #  Where puppet should store the systemd service configuration
 #
@@ -174,6 +181,8 @@ class teleport (
   $proxy_ssl_cert        = undef,
   $init_style            = $teleport::params::init_style,
   $manage_service        = true,
+  $metrics_listen_addr   = '0.0.0.0',
+  $metrics_listen_port   = '3027',
   $systemd_file          = '/lib/systemd/system/teleport.service',
   $service_enable        = true,
   $ensure                = present
