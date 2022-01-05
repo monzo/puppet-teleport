@@ -22,7 +22,7 @@ teleport:
 
 <% if ![:undef, nil].include?(scope.lookupvar("teleport::ec2_token_name")) and scope.lookupvar("teleport::ec2_token_name") != '' -%>
   join_params:
-    token_name: <%= scope.lookupvar('teleport::ec2_token_name') -%>
+    token_name: <%= scope.lookupvar('teleport::ec2_token_name') %>
     method: ec2
 <% end -%>
 
