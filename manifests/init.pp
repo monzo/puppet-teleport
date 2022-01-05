@@ -33,7 +33,14 @@
 #
 # [*auth_token*]
 #  The auth token to use when joining the cluster
-#  Defaults to undef
+#  Defaults to undef, should not be used alongside
+#  ec2_token_name.
+#
+# [*ec2_token_name*]
+#  The name of the EC2 dynamic token to use when 
+#  joining the cluster in AWS EC2.
+#  Defaults to undef, should not be used alongside
+#  auth_token.
 #
 # [*advertise_ip*]
 #  When running in NAT'd environments, designates
@@ -155,6 +162,7 @@ class teleport (
   $nodename              = $teleport::params::nodename,
   $data_dir              = undef,
   $auth_token            = undef,
+  $ec2_token_name        = undef,
   $advertise_ip          = undef,
   $storage_backend       = undef,
   $max_connections       = 1000,

@@ -121,7 +121,11 @@ Teleport data directory.
 
 ##### `auth_token` [String]
 
-The auth token to use when joining the cluster
+The auth token to use when joining the cluster, should not be used alongside ec2_token_name.
+
+##### `ec2_token_name` [String]
+
+The name of the EC2 dynamic token to use when joining the cluster in AWS EC2, should not be used alongside auth_token.
 
 ##### `advertise_ip` [String]
 
