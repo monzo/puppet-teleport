@@ -14,15 +14,15 @@ teleport:
   data_dir: <%= scope.lookupvar('teleport::data_dir') -%>
 <% end -%>
 
-<% if ![:undef, nil].include?(scope.lookupvar("teleport::auth_token")) -%>
+<% if ![:undef, nil].include?(scope.lookupvar("teleport::auth_token")) and scope.lookupvar("teleport::auth_token") != '' -%>
   # Data directory where Teleport keeps its data, like keys/users for
   # authentication (if using the default BoltDB back-end)
   auth_token: <%= scope.lookupvar('teleport::auth_token') -%>
 <% end -%>
 
-<% if ![:undef, nil].include?(scope.lookupvar("teleport::ec2_token_name")) -%>
+<% if ![:undef, nil].include?(scope.lookupvar("teleport::ec2_token_name")) and scope.lookupvar("teleport::ec2_token_name") != '' -%>
   join_params:
-    token_name: <%= scope.lookupvar('teleport::ec2_token_name') -%>
+    token_name: <%= scope.lookupvar('teleport::ec2_token_name') %>
     method: ec2
 <% end -%>
 
