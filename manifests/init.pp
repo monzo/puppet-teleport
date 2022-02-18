@@ -47,10 +47,9 @@
 #  certificate to prevent MITM attacks.
 #
 # [*advertise_ip*]
-#  The name of the EC2 dynamic token to use when 
-#  joining the cluster in AWS EC2.
-#  Defaults to undef, should not be used alongside
-#  auth_token.
+#  When running in NAT'd environments, designates
+#  an IP for teleport to advertise.
+#  Defaults to undef
 #
 # [*storage_backend*]
 #  Which storage backend to use.
