@@ -39,6 +39,10 @@ teleport:
     - <%= server %>
 <% end -%>
 
+<% if ![:undef, nil].include?(scope.lookupvar("teleport::ca_pin")) -%>
+  ca_pin: "<%= scope.lookupvar('teleport::ca_pin') -%>"
+<% end -%>
+
   # Teleport throttles all connections to avoid abuse. These settings allow
   # you to adjust the default limits
   connection_limits:

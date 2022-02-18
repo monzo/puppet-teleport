@@ -127,6 +127,10 @@ The auth token to use when joining the cluster, should not be used alongside ec2
 
 The name of the EC2 dynamic token to use when joining the cluster in AWS EC2, should not be used alongside auth_token.
 
+##### `ca_pin` [String]
+
+The sha256 signature of the auth server CA certificate to prevent MITM attacks.
+
 ##### `advertise_ip` [String]
 
 When running in NAT'd environments, designates an IP for teleport to advertise.
