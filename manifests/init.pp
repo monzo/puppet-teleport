@@ -42,10 +42,15 @@
 #  Defaults to undef, should not be used alongside
 #  auth_token.
 #
+# [*ca_pin*]
+#  The sha256 signature of the auth server CA 
+#  certificate to prevent MITM attacks.
+#
 # [*advertise_ip*]
-#  When running in NAT'd environments, designates
-#  an IP for teleport to advertise.
-#  Defaults to undef
+#  The name of the EC2 dynamic token to use when 
+#  joining the cluster in AWS EC2.
+#  Defaults to undef, should not be used alongside
+#  auth_token.
 #
 # [*storage_backend*]
 #  Which storage backend to use.
@@ -163,6 +168,7 @@ class teleport (
   $data_dir              = undef,
   $auth_token            = undef,
   $ec2_token_name        = undef,
+  $ca_pin                = undef,
   $advertise_ip          = undef,
   $storage_backend       = undef,
   $max_connections       = 1000,
