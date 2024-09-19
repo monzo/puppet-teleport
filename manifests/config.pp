@@ -19,4 +19,18 @@ class teleport::config(
     path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
     refreshonly => true,
   }
+
+  file { $teleport::ca_pin_path:
+    ensure  => $ensure,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0555',
+    content => $teleport::ca_pin
+  }~> 
+  # when the ca pin changes, we need to delete the teleport data and restart the service
+  exec { 'teleport-refresh':
+    command   => 'rm -rf /var/lib/teleport && systemctl restart teleport',
+    path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
+    refreshonly => true,
+  }
 }

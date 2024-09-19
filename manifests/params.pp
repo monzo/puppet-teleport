@@ -12,6 +12,7 @@ class teleport::params {
   $assets_dir      = '/usr/local/share/teleport'
   $config_path     = '/etc/teleport.yaml'
   $nodename        = $::fqdn
+  $ca_pin_path     = '/etc/teleport-ca-pin'
 
   case $::operatingsystem {
     'RedHat', 'CentOS': {
